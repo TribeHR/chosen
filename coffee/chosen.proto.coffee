@@ -25,12 +25,16 @@ class Chosen extends AbstractChosen
 
   set_up_html: ->
     @container_id = @form_field.identify().replace(/[^\w]/g, '_') + "_chzn"
+
+    @container_classes = "chzn-container"
+    @container_classes += " chzn-rtl" if @is_rtl
+    @container_classes += " " + @form_field.readAttribute('class') if @form_field.readAttribute('class')
     
     @f_width = if @form_field.getStyle("width") then parseInt @form_field.getStyle("width"), 10 else @form_field.getWidth()
     
     container_props =
       'id': @container_id
-      'class': "chzn-container#{ if @is_rtl then ' chzn-rtl' else '' }"
+      'class': @container_classes
       'style': 'width: ' + (@f_width) + 'px' #use parens around @f_width so coffeescript doesn't think + ' px' is a function parameter
     
     base_template = if @is_multiple then new Element('div', container_props).update( @multi_temp.evaluate({ "default": @default_text}) ) else new Element('div', container_props).update( @single_temp.evaluate({ "default":@default_text }) )

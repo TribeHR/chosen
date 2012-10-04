@@ -30,11 +30,15 @@ class Chosen extends AbstractChosen
     @container_id = if @form_field.id.length then @form_field.id.replace(/[^\w]/g, '_') else this.generate_field_id()
     @container_id += "_chzn"
 
+    @container_classes = "chzn-container"
+    @container_classes += " chzn-rtl" if @is_rtl
+    @container_classes += " " + @form_field_jq.attr('class') if @form_field_jq.attr('class')
+
     @f_width = @form_field_jq.outerWidth()
 
     container_div = ($ "<div />", {
       id: @container_id
-      class: "chzn-container#{ if @is_rtl then ' chzn-rtl' else '' }"
+      class: @container_classes
       style: 'width: ' + (@f_width) + 'px;' #use parens around @f_width so coffeescript doesn't think + ' px' is a function parameter
     })
 
